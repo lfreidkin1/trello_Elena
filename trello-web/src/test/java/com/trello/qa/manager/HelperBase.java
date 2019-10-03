@@ -48,7 +48,6 @@ public class HelperBase {
     } else
       waitForElementAndClick(By.cssSelector("a[href='/']"), 15);
   }
-
   @BeforeMethod
   public void isOnHomePage() {
     if (!isTherePersonalBoards()) {
