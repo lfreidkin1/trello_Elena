@@ -1,5 +1,6 @@
-package com.trello.qa;
+package com.trello.qa.tests;
 
+import com.trello.qa.manager.TestBase;
 import org.testng.annotations.Test;
 
 public class BoardDeletionTest extends TestBase {

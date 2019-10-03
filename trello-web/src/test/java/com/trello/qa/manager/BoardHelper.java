@@ -1,4 +1,4 @@
-package com.trello.qa;
+package com.trello.qa.manager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -26,7 +26,7 @@ public class BoardHelper extends  HelperBase{
   }
 
   public void confirmBoardCreation() {
-    waitForElementAndClick(By.cssSelector("[data-test-id='header-create-board-submit-button']"), 20);
+    click(By.cssSelector("[data-test-id='header-create-board-submit-button']"));
   }
 
   public int getPersnalBoardsCount() {
@@ -72,5 +72,18 @@ public class BoardHelper extends  HelperBase{
 
   public void confirmFinishBoardDeletion() {
     click(By.cssSelector(".js-confirm.full"));
+  }
+
+  public void editBoard (){
+    click(By.cssSelector(".js-rename-board"));
+  }
+
+
+  public void clickOnBoardButton() {
+    click(By.name("board"));
+  }
+
+  public void renameBoard(String name) {
+    type(By.cssSelector(".js-board-name-input"),name);
   }
 }

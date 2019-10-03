@@ -1,10 +1,9 @@
-package com.trello.qa;
+package com.trello.qa.manager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.BeforeMethod;
 
 public class TeamHelper extends  HelperBase {
 
@@ -16,16 +15,16 @@ public class TeamHelper extends  HelperBase {
     click(By.cssSelector("[type=submit]"));
   }
 
-  public void fillTeamCreationForm(String teamName, String description) {
-    type(By.cssSelector("[data-test-id='header-create-team-name-input']"), teamName);
-    type(By.cssSelector("textarea"), description);
+  public void fillTeamCreationForm(TeamData team) {
+    type(By.cssSelector("[data-test-id='header-create-team-name-input']"), team.getTeamName());
+    type(By.cssSelector("textarea"), team.getDescription());
   }
 
   public void selectCreateTeamFromDropDown() {
     click(By.cssSelector("[data-test-id='header-create-team-button']"));
   }
 
-  protected String getTeamNameFromTeamPage() {
+  public String getTeamNameFromTeamPage() {
     new WebDriverWait(driver, 20)
             .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("h1")));
     return driver.findElement(By.cssSelector("h1")).getText();
@@ -45,7 +44,7 @@ public class TeamHelper extends  HelperBase {
   public void openSettings() throws InterruptedException {
     //waitForElementAndClick(By.xpath("//*[@class='icon-gear icon-sm OiX3P2i2J92Xat']/../../.."), 20);
     Thread.sleep(5000);
-    click(By.xpath("//*[@class='icon-gear icon-sm OiX3P2i2J92Xat']/../../.."));
+    click(By.cssSelector("ul .icon-gear.icon-sm"));
     //   click(By.cssSelector("[href$=account]"));
     //waitForElementAndClick(By.cssSelector("li .icon-gear.icon-sm.OiX3P2i2J92Xat"), 30);
   }
@@ -77,5 +76,32 @@ public class TeamHelper extends  HelperBase {
       count = getTeamsCount();
       System.out.println(count);
     }
+  }
+
+  public void initEditTeamProfile() {
+    click(By.cssSelector(".js-edit-profile"));
+    //waitForElementAndClick(By.cssSelector(".js-edit-profile"),10);
+  }
+
+  public void changeTeamProfile(String name, String desc) {
+    type(By.name("displayName"),name);
+    type(By.name("desc"),desc);
+  }
+
+  public void confirmEditTeam() {
+    click(By.cssSelector(".js-submit-profile"));
+  }
+
+  public boolean isTeamsPresent() {
+  return getTeamsCount()>0;
+  }
+
+  public void createTeam() {
+   clickOnPlusButtonOnHeader();
+   selectCreateTeamFromDropDown();
+    String teamName= "qa21"+ System.currentTimeMillis();
+   fillTeamCreationForm(new TeamData().withTeamName(teamName).withDescription("descr qa 21"));
+   clickContinueButton();
+   returnToHomePage();
   }
 }
